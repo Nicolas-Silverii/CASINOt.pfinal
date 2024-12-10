@@ -16,47 +16,44 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TragamonedasX10 = exports.TragamonedasX5 = exports.Tragamonedas = void 0;
-var Juego_1 = require("./Juego");
+var JuegoBase_1 = require("../clases/JuegoBase");
 var Tragamonedas = /** @class */ (function (_super) {
     __extends(Tragamonedas, _super);
-    function Tragamonedas(nombre, apuestaMinima, multiplicador) {
+    function Tragamonedas(nombre, apuestaMinima, multiplicador, numColumnas) {
         var _this = _super.call(this, nombre, apuestaMinima) || this;
+        _this.frutas = ['🍒', '🍊', '🍋', '🍉'];
         _this.multiplicador = multiplicador;
+        _this.numColumnas = numColumnas;
         return _this;
     }
-    // Girar ruleta de 3 "columnas"
     Tragamonedas.prototype.girarColumnas = function () {
-        var columnas = [1, 2, 3];
         var resultado = [];
-        for (var i = 0; i < 3; i++) {
-            resultado.push(columnas[Math.floor(Math.random() * columnas.length)]);
+        for (var i = 0; i < this.numColumnas; i++) {
+            resultado.push(this.frutas[Math.floor(Math.random() * this.frutas.length)]);
         }
         return resultado;
     };
-    // Método para hacer la apuesta
-    Tragamonedas.prototype.realizarApuesta = function (cantidad) {
+    Tragamonedas.prototype.realizarApuesta = function (cantidad, numeroElegido) {
         if (cantidad < this.apuestaMinima) {
-            return "La apuesta m\u00EDnima es de ".concat(this.apuestaMinima, ".");
+            return "La apuesta m\u00EDnima es de ".concat(this.apuestaMinima, " monedas.");
         }
-        // Gira las columnas
         var resultadoColumnas = this.girarColumnas();
-        console.log("Resultado de las columnas: ".concat(resultadoColumnas.join(" - "))); // resultado
-        // Comprobar resultado en las columnas
-        if (resultadoColumnas[0] === resultadoColumnas[1] && resultadoColumnas[1] === resultadoColumnas[2]) {
+        console.log("Resultado de las columnas: ".concat(resultadoColumnas.join(" - ")));
+        if (resultadoColumnas.every(function (fruta) { return fruta === resultadoColumnas[0]; })) {
             var premio = cantidad * this.multiplicador;
-            return "\u00A1Has ganado ".concat(premio, " monedas.");
+            return "\u00A1Has ganado ".concat(premio, " monedas!");
         }
         else {
             return "Has perdido. \u00A1Mejor suerte la pr\u00F3xima vez!";
         }
     };
     return Tragamonedas;
-}(Juego_1.Juego));
+}(JuegoBase_1.JuegoBase));
 exports.Tragamonedas = Tragamonedas;
 var TragamonedasX5 = /** @class */ (function (_super) {
     __extends(TragamonedasX5, _super);
     function TragamonedasX5() {
-        return _super.call(this, "Tragamonedas X5", 50, 5) || this;
+        return _super.call(this, "Tragamonedas X5", 50, 5, 3) || this;
     }
     return TragamonedasX5;
 }(Tragamonedas));
@@ -64,7 +61,7 @@ exports.TragamonedasX5 = TragamonedasX5;
 var TragamonedasX10 = /** @class */ (function (_super) {
     __extends(TragamonedasX10, _super);
     function TragamonedasX10() {
-        return _super.call(this, "Tragamonedas X10", 100, 10) || this;
+        return _super.call(this, "Tragamonedas X10", 100, 10, 4) || this;
     }
     return TragamonedasX10;
 }(Tragamonedas));

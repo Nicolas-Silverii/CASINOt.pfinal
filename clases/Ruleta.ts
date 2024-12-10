@@ -1,29 +1,29 @@
-import { Juego } from './Juego';
+import { JuegoBase } from './JuegoBase';
 
-export class Ruleta extends Juego {
-    constructor(nombre: string, apuestaMinima: number = 20) {
-        super(nombre, apuestaMinima);
+export class Ruleta extends JuegoBase {
+    protected nombre: string = "Ruleta";
+    public apuestaMinima: number = 10;
+
+    constructor() {
+        super("Ruleta", 10);
     }
 
-    realizarApuesta(cantidad: number, numeroElegido: number): string {
-        if (cantidad < this.apuestaMinima) {
-            return `La apuesta debe ser mayor o igual a ${this.apuestaMinima}.`;
-        }
+    getNombre(): string {
+        return this.nombre;
+    }
 
-        // Giro de la ruleta
-        const numeroGanador = this.girarRuleta();
+    getApuestaMinima(): number {
+        return this.apuestaMinima;
+    }
 
-        // ¿Ganó o perdió?
+    realizarApuesta(cantidad: number, numeroElegido?: number): string {
+        const numeroGanador = Math.floor(Math.random() * 6)
+
         if (numeroElegido === numeroGanador) {
-            return `¡Has ganado! El número ganador es ${numeroGanador}.`;
+            const premio = cantidad * 10; 
+            return `Número ganador: ${numeroGanador}\n¡Felicidades! Has ganado ${premio} monedas.`;
         } else {
-            return `Has perdido. El número ganador fue ${numeroGanador}. Inténtalo de nuevo.`;
+            return `Número ganador: ${numeroGanador}\nLo siento, no has ganado esta vez.`;
         }
-    }
-
-    // Método para girar la ruleta
-    private girarRuleta(): number {
-        return Math.floor(Math.random() * 11);
     }
 }
- 

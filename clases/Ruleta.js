@@ -16,31 +16,31 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Ruleta = void 0;
-var Juego_1 = require("./Juego");
+var JuegoBase_1 = require("./JuegoBase");
 var Ruleta = /** @class */ (function (_super) {
     __extends(Ruleta, _super);
-    function Ruleta(nombre, apuestaMinima) {
-        if (apuestaMinima === void 0) { apuestaMinima = 20; }
-        return _super.call(this, nombre, apuestaMinima) || this;
+    function Ruleta() {
+        var _this = _super.call(this, "Ruleta", 10) || this;
+        _this.nombre = "Ruleta";
+        _this.apuestaMinima = 10;
+        return _this;
     }
+    Ruleta.prototype.getNombre = function () {
+        return this.nombre;
+    };
+    Ruleta.prototype.getApuestaMinima = function () {
+        return this.apuestaMinima;
+    };
     Ruleta.prototype.realizarApuesta = function (cantidad, numeroElegido) {
-        if (cantidad < this.apuestaMinima) {
-            return "La apuesta debe ser mayor o igual a ".concat(this.apuestaMinima, ".");
-        }
-        // Realizamos el giro de la ruleta
-        var numeroGanador = this.girarRuleta();
-        // ¿Ganó o perdió?
+        var numeroGanador = Math.floor(Math.random() * 6);
         if (numeroElegido === numeroGanador) {
-            return "\u00A1Has ganado! El n\u00FAmero ganador es ".concat(numeroGanador, ".");
+            var premio = cantidad * 10;
+            return "N\u00FAmero ganador: ".concat(numeroGanador, "\n\u00A1Felicidades! Has ganado ").concat(premio, " monedas.");
         }
         else {
-            return "Has perdido. El n\u00FAmero ganador fue ".concat(numeroGanador, ". Int\u00E9ntalo de nuevo.");
+            return "N\u00FAmero ganador: ".concat(numeroGanador, "\nLo siento, no has ganado esta vez.");
         }
     };
-    // Método para girar la ruleta, devuelve un número aleatorio entre 0 y 5
-    Ruleta.prototype.girarRuleta = function () {
-        return Math.floor(Math.random() * 11);
-    };
     return Ruleta;
-}(Juego_1.Juego));
+}(JuegoBase_1.JuegoBase));
 exports.Ruleta = Ruleta;
