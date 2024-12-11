@@ -15,14 +15,26 @@ var Casino = /** @class */ (function () {
         console.log("1. Jugar Tragamonedas");
         console.log("2. Jugar Ruleta");
         console.log("3. Salir");
-        var opcion = readlineSync.questionInt("Elige una opción: ");
+        var opcion = -1;
+        while (opcion < 1 || opcion > 3) {
+            opcion = readlineSync.questionInt("Elige una opción (1-3): ");
+            if (opcion < 1 || opcion > 3) { // Utilizo operador lógico OR (visto en devolución)
+                console.log("Opción no válida. Por favor, selecciona una opción válida.");
+            }
+        }
         return opcion;
     };
     Casino.prototype.mostrarSubMenuTragamonedas = function () {
         console.log("\nElige el tipo de tragamonedas:");
         console.log("1. Tragamonedas X5");
         console.log("2. Tragamonedas X10");
-        var subOpcion = readlineSync.questionInt("Elige una opción: ");
+        var subOpcion = -1;
+        while (subOpcion < 1 || subOpcion > 2) {
+            subOpcion = readlineSync.questionInt("Elige una opción (1-2): ");
+            if (subOpcion < 1 || subOpcion > 2) {
+                console.log("Opción no válida. Por favor, selecciona una opción válida.");
+            }
+        }
         return subOpcion;
     };
     Casino.prototype.realizarApuesta = function (juegoNombre, cantidad, numeroElegido) {

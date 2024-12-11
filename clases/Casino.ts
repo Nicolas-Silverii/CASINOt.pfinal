@@ -14,29 +14,45 @@ export class Casino {
         console.log("1. Jugar Tragamonedas");
         console.log("2. Jugar Ruleta");
         console.log("3. Salir");
-        const opcion = readlineSync.questionInt("Elige una opción: ");
+             
+        let opcion = -1;
+        while (opcion < 1 || opcion > 3) {
+            opcion = readlineSync.questionInt("Elige una opción (1-3): ");
+            if (opcion < 1 || opcion > 3) { // Utilizo operador lógico OR (visto en devolución)
+                console.log("Opción no válida. Por favor, selecciona una opción válida.");
+            }
+        }
         return opcion;
     }
+
 
     mostrarSubMenuTragamonedas(): number {
         console.log("\nElige el tipo de tragamonedas:");
         console.log("1. Tragamonedas X5");
         console.log("2. Tragamonedas X10");
-        const subOpcion = readlineSync.questionInt("Elige una opción: ");
+
+        let subOpcion = -1;
+        while (subOpcion < 1 || subOpcion > 2) {
+            subOpcion = readlineSync.questionInt("Elige una opción (1-2): ");
+            if (subOpcion < 1 || subOpcion > 2) {
+                console.log("Opción no válida. Por favor, selecciona una opción válida.");
+            }
+        }
         return subOpcion;
     }
 
     realizarApuesta(juegoNombre: string, cantidad: number, numeroElegido?: number): string {
         const juego = this.juegos.find(j => j.getNombre() === juegoNombre);
         
+        
         if (!juego) return "Juego no encontrado.";
-        if (cantidad < juego.getApuestaMinima()) return `La apuesta mínima es ${juego.getApuestaMinima()}.`;
-    
+        if (cantidad < juego.getApuestaMinima()) return `La apuesta mínima es ${juego.getApuestaMinima()}.`;  
+
         this.saldo -= cantidad; 
         let resultado: string = juego.realizarApuesta(cantidad, numeroElegido);  
         
         if (resultado.includes("¡Felicidades! Has ganado")) {
-            const match = resultado.match(/(\d+) monedas/);
+            const match = resultado.match(/(\d+) monedas/); 
             if (match) {
                 const premio = parseInt(match[1], 10);
                 this.saldo += premio; 
@@ -55,7 +71,6 @@ export class Casino {
 
         while (!salir) {
             const opcion = this.mostrarMenu();  
-
             switch (opcion) {
                 case 1:
                     const tipoTragamonedas = this.mostrarSubMenuTragamonedas(); 
